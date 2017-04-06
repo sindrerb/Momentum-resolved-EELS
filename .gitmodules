@@ -1,0 +1,3 @@
+[submodule "vec3-class"]
+	path = vec3-class
+	url = https://github.com/andeplane/vec3-class
