@@ -2,6 +2,7 @@
 #define SEELS_H
 
 #include<vector>
+#include<string>
 #include<../wavestate-class/wavestate.h>
 #include<../vec3-class/vec3.h>
 
@@ -14,8 +15,10 @@ public:
     void setEnergyRange(double energyMinimum,double energyMaximum,double dispersion);
     void writeEnergyRangeToFile();
 
+    void readWavestates(std::string WAVEFILE);
 
-
+    void calculateSpectrum(vec3 q);
+    void addSpectrumToFile();
 
 
     double getEnergyMin() const;
@@ -35,7 +38,7 @@ private:
 
     //Spectra storage
     double *energyRange;
-    double *spectra;
+    double *spectrum;
 
     //Calculation parameters
     vec3 momentumTransfer;
