@@ -1,10 +1,14 @@
 #ifndef SEELS_H
 #define SEELS_H
 
-#include<vector>
-#include<string>
-#include<../wavestate-class/wavestate.h>
-#include<../vec3-class/vec3.h>
+#include <string>
+#include <../vec3-class/vec3.h>
+#include <../wavestate-class/wavestate.h>
+#include <iostream>
+#include <fstream>
+#include <math.h>
+#include <vector>
+#include <complex>
 
 class SEELS
 {
@@ -15,11 +19,13 @@ public:
     void setEnergyRange(double energyMinimum,double energyMaximum,double dispersion);
     void writeEnergyRangeToFile();
 
-    void readWavestates(std::string WAVEFILE);
+    bool readBASISFILE(std::string BASISFILE);
+    bool readWAVEFILE(std::string WAVEFILE);
 
     void calculateSpectrum(vec3 q);
     void addSpectrumToFile();
 
+    double FermiDirac(double energy);
 
     double getEnergyMin() const;
     void setEnergyMin(double value);
@@ -30,22 +36,50 @@ public:
     double getEnergyDispersion() const;
     void setEnergyDispersion(double value);
 
+    double getFermilevel() const;
+    void setFermilevel(double value);
+
+    vec3 getMomentumTransfer() const;
+    void setMomentumTransfer(const vec3 &value);
+
 private:
     //EELS spectra details
-    double energyMin;
-    double energyMax;
-    double energyDispersion;
+    double m_energyMin;
+    double m_energyMax;
+    double m_energyDispersion;
 
-    //Spectra storage
-    double *energyRange;
-    double *spectrum;
+
+    //WaveBasis
+    int m_waveBasisLength;
+    std::vector<vec3> m_waveBasis;
+
+    //WaveStates
+    std::vector<waveState> m_wavestates;
+    int m_wavestatesLength;
+
+
+    //Dielectric function calculation
+    std::vector<double> m_matrixElements;
+    int m_matrixElementsLenght;
+
+    std::vector<double> m_energyTransitions;
+    int m_energyTransitionsLength;
+
+    std::vector<double> m_fermiWeights;
+    int m_fermiWeightsLength;
+
 
     //Calculation parameters
-    vec3 momentumTransfer;
+    vec3 m_momentumTransfer;
+    double m_temperature;
+    double m_fermilevel;
 
+    //Spectra storage
+    double *m_energyRange;
+    double *m_spectrum;
+    int m_spectrumLength;
 
-
-
+    
 };
 
 #endif // SEELS_H
