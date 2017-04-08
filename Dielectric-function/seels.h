@@ -17,13 +17,15 @@ public:
     SEELS(double energyMinimum,double energyMaximum,double dispersion);
 
     void setEnergyRange(double energyMinimum,double energyMaximum,double dispersion);
-    void writeEnergyRangeToFile();
+    void writeEnergyRangeToFile(std::string ENERGYFILE);
 
     bool readBASISFILE(std::string BASISFILE);
     bool readWAVEFILE(std::string WAVEFILE);
 
     void calculateSpectrum(vec3 q);
-    void addSpectrumToFile();
+    void addSpectrumToFile(std::string SPECTRUMFILE);
+
+    void addKPointToFile(std::string KPOINTFILE, vec3 q);
 
     double FermiDirac(double energy);
 
@@ -41,6 +43,9 @@ public:
 
     vec3 getMomentumTransfer() const;
     void setMomentumTransfer(const vec3 &value);
+
+    double getTemperature() const;
+    void setTemperature(double temperature);
 
 private:
     //EELS spectra details

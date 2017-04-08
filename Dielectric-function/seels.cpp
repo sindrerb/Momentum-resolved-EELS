@@ -9,11 +9,23 @@ SEELS::SEELS(double energyMinimum, double energyMaximum, double dispersion) {
     setEnergyMax(energyMaximum);
     setEnergyDispersion(dispersion);
 
+
     m_spectrumLength = (int) (m_energyMax-m_energyMin)/(m_energyDispersion);
     m_spectrum = new double[m_spectrumLength];
+    m_energyRange = new double[m_spectrumLength];
     for(int i = 0; i<m_spectrumLength; i++){
         m_spectrum[i] = 0;
+        m_energyRange[i] = m_energyMin+i*m_energyDispersion;
     }
+}
+
+void SEELS::writeEnergyRangeToFile(std::__cxx11::string ENERGYFILE) {
+    std::ofstream ENERGY(ENERGYFILE);
+
+    for(int i = 0; i<m_spectrumLength; i++) {
+        ENERGY << m_energyRange[i] << "\t";
+    }
+    ENERGY.close();
 }
 
 bool SEELS::readBASISFILE(std::__cxx11::string BASISFILE) {
@@ -101,21 +113,23 @@ void SEELS::calculateSpectrum(vec3 q)
         for(int final=initial; final<m_wavestatesLength; final++) {
 
             momentumTransfer = m_wavestates[final].getK() -m_wavestates[initial].getK();
+            if(m_wavestates[final].energy() <= 25.0 && m_wavestates[initial].energy() >= 6.0) {
+                if( (momentumTransfer-q).length() < 0.001) {
+                    matrixElement = 0;
+                    for(int i = 0; i<m_waveBasisLength; i++) {
+                        matrixElement += m_wavestates[final].weight(i)*m_wavestates[initial].weight(i)*(m_waveBasis[i].length()+m_wavestates[initial].getK()+0.5*q).length();
+                    }
+                    m_matrixElements.push_back(matrixElement*matrixElement);
+                    m_matrixElementsLenght ++;
 
-            if( (momentumTransfer-q).length() < 0.001) {
-                matrixElement = 0;
-                for(int i = 0; i<m_waveBasisLength; i++) {
-                    matrixElement += m_wavestates[final].weight(i)*m_wavestates[initial].weight(i)*(m_waveBasis[i].length()+m_wavestates[initial].getK()+0.5*q).length();
+                    m_energyTransitions.push_back(m_wavestates[final].energy()-m_wavestates[initial].energy());
+                    m_energyTransitionsLength ++;
+
+                    fermiWeight = FermiDirac(m_wavestates[final].energy())-FermiDirac(m_wavestates[initial].energy());
+                    m_fermiWeights.push_back(fermiWeight);
+                    m_fermiWeightsLength ++;
+    //                std::cout << matrixElement << "\t" << m_energyTransitions[m_energyTransitionsLength-1] << std::endl;
                 }
-                m_matrixElements.push_back(matrixElement*matrixElement);
-                m_matrixElementsLenght ++;
-
-                m_energyTransitions.push_back(m_wavestates[final].energy()-m_wavestates[initial].energy());
-                m_energyTransitionsLength ++;
-
-                fermiWeight = FermiDirac(m_wavestates[final].energy())-FermiDirac(m_wavestates[initial].energy());
-                m_fermiWeights.push_back(fermiWeight);
-                m_fermiWeightsLength ++;
             }
         }
     }
@@ -125,14 +139,32 @@ void SEELS::calculateSpectrum(vec3 q)
     epsilon = 0.001*1i;
     double energy;
     energy = m_energyMin;
-    for(int i = 0; i<m_spectrumLength; i++) {
+    for(int i = 0; i<m_spectrumLength; i++) { //
         spectrumIntensity = 0;
         for(int j = 0; j<m_matrixElementsLenght; j++) {
             spectrumIntensity += m_matrixElements[j]*m_fermiWeights[j]/(energy-m_energyTransitions[j]+epsilon);
         }
+        m_spectrum[i] = spectrumIntensity.real();
+        energy += m_energyDispersion;
     }
-
 }
+
+void SEELS::addSpectrumToFile(std::__cxx11::string SPECTRUMFILE) {
+    std::ofstream SPECTRA(SPECTRUMFILE, std::ios_base::app);
+
+    for(int i = 0; i<m_spectrumLength; i++) {
+        SPECTRA << m_spectrum[i] << "\t";
+    }
+    SPECTRA << "\n";
+    SPECTRA.close();
+}
+
+void SEELS::addKPointToFile(std::__cxx11::string KPOINTFILE, vec3 q) {
+    std::ofstream KPOINT(KPOINTFILE, std::ios_base::app);
+    KPOINT << q.x() << "\t" << q.y() << "\t" << q.z() << "\n";
+    KPOINT.close();
+}
+
 
 double SEELS::FermiDirac(double energy) {
     return 1.0/(exp((energy-m_fermilevel)/(m_temperature))+1.0);
@@ -185,6 +217,16 @@ vec3 SEELS::getMomentumTransfer() const
 void SEELS::setMomentumTransfer(const vec3 &value)
 {
     m_momentumTransfer = value;
+}
+
+double SEELS::getTemperature() const
+{
+    return m_temperature;
+}
+
+void SEELS::setTemperature(double temperature)
+{
+    m_temperature = temperature;
 }
 
 
