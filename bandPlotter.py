@@ -17,3 +17,4 @@ E = waves[:,3]
 for i,q in enumerate(Q):
     plt.scatter(q[0],E[i])
     
+plt.show()
