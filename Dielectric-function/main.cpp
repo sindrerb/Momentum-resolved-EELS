@@ -8,18 +8,18 @@ int main(int argc, char *argv[])
     string basisFile = "BASISFILE";
     string waveFile = "WAVEFILE";
 
-    SEELS Simulate(0,10,0.01);
+    SEELS Simulate(0,10,0.001);
     Simulate.readBASISFILE(basisFile);
     Simulate.readWAVEFILE(waveFile);
 
-    Simulate.setFermilevel(15);
+    Simulate.setFermilevel(11);
     Simulate.setTemperature(0.1);
 
     vec3 k,q;
-    k = vec3(0.00125664,0,0);
+    k = vec3(0.001,0,0);
     Simulate.writeEnergyRangeToFile("ENERGYFILE");
 
-    for(int i = 0; i<10; i++){
+    for(int i = 0; i<40; i++){
         q = i*k;
         Simulate.calculateSpectrum(q);
         Simulate.addKPointToFile("KPOINTFILE", q);

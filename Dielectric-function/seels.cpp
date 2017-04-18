@@ -113,22 +113,24 @@ void SEELS::calculateSpectrum(vec3 q)
         for(int final=initial; final<m_wavestatesLength; final++) {
 
             momentumTransfer = m_wavestates[final].getK() -m_wavestates[initial].getK();
-            if(m_wavestates[final].energy() <= 25.0 && m_wavestates[initial].energy() >= 6.0) {
-                if( (momentumTransfer-q).length() < 0.001) {
-                    matrixElement = 0;
-                    for(int i = 0; i<m_waveBasisLength; i++) {
-                        matrixElement += m_wavestates[final].weight(i)*m_wavestates[initial].weight(i)*(m_waveBasis[i].length()+m_wavestates[initial].getK()+0.5*q).length();
+            if(m_wavestates[final].energy() <= 20.0 && m_wavestates[final].energy() >= 11.0) {
+                if(m_wavestates[initial].energy() <= 11.0 && m_wavestates[initial].energy() >= 5.0) {
+                    if( (momentumTransfer-q).length() < 0.001 && m_wavestates[final].energy() > m_wavestates[initial].energy()) {
+                        matrixElement = 0;
+                        for(int i = 0; i<m_waveBasisLength; i++) {
+                            matrixElement += m_wavestates[final].weight(i)*m_wavestates[initial].weight(i)*(m_waveBasis[i].length()+m_wavestates[initial].getK()+0.5*q).length();
+                        }
+                        m_matrixElements.push_back(matrixElement*matrixElement);
+                        m_matrixElementsLenght ++;
+
+                        m_energyTransitions.push_back(m_wavestates[final].energy()-m_wavestates[initial].energy());
+                        m_energyTransitionsLength ++;
+
+                        fermiWeight = FermiDirac(m_wavestates[final].energy())-FermiDirac(m_wavestates[initial].energy());
+                        m_fermiWeights.push_back(fermiWeight);
+                        m_fermiWeightsLength ++;
+        //                std::cout << matrixElement << "\t" << m_energyTransitions[m_energyTransitionsLength-1] << std::endl;
                     }
-                    m_matrixElements.push_back(matrixElement*matrixElement);
-                    m_matrixElementsLenght ++;
-
-                    m_energyTransitions.push_back(m_wavestates[final].energy()-m_wavestates[initial].energy());
-                    m_energyTransitionsLength ++;
-
-                    fermiWeight = FermiDirac(m_wavestates[final].energy())-FermiDirac(m_wavestates[initial].energy());
-                    m_fermiWeights.push_back(fermiWeight);
-                    m_fermiWeightsLength ++;
-    //                std::cout << matrixElement << "\t" << m_energyTransitions[m_energyTransitionsLength-1] << std::endl;
                 }
             }
         }
