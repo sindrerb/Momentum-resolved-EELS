@@ -26,7 +26,7 @@ int main(int argc, char *argv[]) {
         return -1;
     }
 
-    MC.setFermiEnergy(11.0);
+    MC.setFermiEnergy(10.5);
     MC.setTemperature(1);
 
     MC.defineEnergyRange(energyMin, energyMax, energyBin);
@@ -40,7 +40,7 @@ int main(int argc, char *argv[]) {
     }
 
     MC.calculateSpectrum(1);
-    MC.writeSpectrum("BALLE");
+    MC.writeSpectrum("SPECTRA");
 
 
 

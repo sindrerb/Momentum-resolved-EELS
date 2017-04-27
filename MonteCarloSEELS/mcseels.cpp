@@ -69,7 +69,7 @@ bool MCSEELS::readWavefile(std::__cxx11::string FILENAME) {
         if(m_wavestatesLength > 0){
             m_wavestatesLength --;
         }
-
+        WAVES.close();
         if(m_wavestatesLength == 0) {
             std::cout << "The file does not contain any reciprocal points" << std::endl;
             return false;
@@ -155,14 +155,16 @@ void MCSEELS::calculateSpectrum(int cycles) {
     }
 }
 
-void MCSEELS::writeSpectrum(std::__cxx11::string FILENAME)
-{
+void MCSEELS::writeSpectrum(std::__cxx11::string FILENAME) {
+    std::ofstream FILE(FILENAME);
+
     for(int momentumPlace = 0; momentumPlace<m_momentumLength; momentumPlace++) {
         for(int energyPlace = 0; energyPlace<m_energyLength; energyPlace++) {
-            std::cout << m_spectrum[momentumPlace][energyPlace] << " ";
+            FILE << m_spectrum[momentumPlace][energyPlace] << "\t";
         }
-        std::cout << std::endl;
+        FILE << "\n";
     }
+    FILE.close();
 }
 
 bool MCSEELS::setSpectrum()
