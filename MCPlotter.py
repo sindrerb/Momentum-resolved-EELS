@@ -12,10 +12,12 @@ spectra = np.loadtxt("./MonteCarloSEELS/Build/SPECTRA", dtype = 'float')
 
 energy = np.linspace(0,10,49)
 
+plt.plot(energy,spectra[0,:])
 
+"""
 for i, spectrum in enumerate(spectra):
     
     print i
-    plt.plot(energy,spectrum[:])
-    
+    plt.plot(energy,spectrum[:]
+"""
 plt.show()

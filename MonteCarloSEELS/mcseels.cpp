@@ -138,7 +138,7 @@ void MCSEELS::calculateSpectrum(int cycles) {
             metropolis = randomGenerator(gen);
             if(fermi > metropolis) {
                 for(int i = 0; i<m_waveBasisLength; i++) {
-                    matrixElement += -(m_wavestates[final].weight(i)*m_wavestates[initial].weight(i)*(m_waveBasis[i].length()+m_wavestates[initial].getK()+0.5*momentumTransfer).length());
+                    matrixElement += (m_wavestates[final].weight(i)*m_wavestates[initial].weight(i)*(m_waveBasis[i]+m_wavestates[initial].getK()+0.5*momentumTransfer).length());
                 }
                 momentumPlace = (int) (momentumTransfer.length()/m_momentumBin);
                 energyPlace = (int) (energyTransfer/m_energyBin);
