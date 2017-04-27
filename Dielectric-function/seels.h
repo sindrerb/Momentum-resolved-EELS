@@ -73,7 +73,6 @@ private:
     std::vector<double> m_fermiWeights;
     int m_fermiWeightsLength;
 
-
     //Calculation parameters
     vec3 m_momentumTransfer;
     double m_temperature;
