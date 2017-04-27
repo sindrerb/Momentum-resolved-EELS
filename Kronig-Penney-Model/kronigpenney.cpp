@@ -27,7 +27,7 @@ bool KronigPenney::readCELLFILE(std::__cxx11::string CELLFILE) {
     std::fstream CELL(CELLFILE , std::ios_base::in);
 
     if(!CELL.good()){
-        std::cout << "Could not find a CELLFILE" << std::endl;
+        //std::cout << "Could not find a CELLFILE" << std::endl;
         return false;
     }else{
         CELL >> dummystring >> dummystring;
@@ -104,7 +104,7 @@ void KronigPenney::setWaveBasis(double energyCutOff)
             }
         }
     }
-    std::cout << "Calculated new wave basis from energy cut off" << std::endl;
+    //std::cout << "Calculated new wave basis from energy cut off" << std::endl;
 }
 
 bool KronigPenney::readBASISFILE(std::__cxx11::string BASISFILE) {
@@ -113,7 +113,7 @@ bool KronigPenney::readBASISFILE(std::__cxx11::string BASISFILE) {
     std::fstream BASIS(BASISFILE, std::ios_base::in);
 
     if(!BASIS.good()){
-        std::cout << "Could not find a BASISFILE" << std::endl;
+        //std::cout << "Could not find a BASISFILE" << std::endl;
         return false;
     }else{
         double x,y,z;
@@ -141,7 +141,7 @@ void KronigPenney::writeBASISFILE(std::__cxx11::string BASISFILE)
             FILE << G.x() << "\t" << G.y() << "\t" << G.z() << "\n";
         }
         FILE.close();
-        std::cout << "Wrote the wave basis to a BASISFILE" << std::endl;
+        //std::cout << "Wrote the wave basis to a BASISFILE" << std::endl;
 
     }else{
         BASIS.close();
@@ -167,7 +167,7 @@ void KronigPenney::setWaveStates(vec3 kPoint) {
         m_unperturbedStates.push_back(waveState(kPoint,m_waveBasis[i],energy,weights));
         m_unperturbedStatesLength ++;
     }
-    std::cout << "Generated initial states based on wave basis" << std::endl;
+    //std::cout << "Generated initial states based on wave basis" << std::endl;
 }
 
 bool KronigPenney::readWAVEFILE(std::__cxx11::string WAVEFILE, vec3 kPoint) {
@@ -181,7 +181,7 @@ bool KronigPenney::readWAVEFILE(std::__cxx11::string WAVEFILE, vec3 kPoint) {
 
     if(!WAVES.good()){ //If kPoint is not contained in file
         WAVES.close();
-        std::cout << "Could not find a WAVEFILE" << std::endl;
+        //std::cout << "Could not find a WAVEFILE" << std::endl;
         return false;
     }else{
         m_unperturbedStates.clear();
@@ -214,7 +214,7 @@ bool KronigPenney::readWAVEFILE(std::__cxx11::string WAVEFILE, vec3 kPoint) {
         }
 
         if(m_unperturbedStatesLength == 0) {
-            std::cout << "The file does not contain the desired k-point" << std::endl;
+            //std::cout << "The file does not contain the desired k-point" << std::endl;
             return false;
         }else{
             return true;
@@ -242,7 +242,7 @@ void KronigPenney::writeWAVEFILE(std::__cxx11::string WAVEFILE, vec3 kPoint) {
         FILE << "\n";
     }
     FILE.close();
-    std::cout << "Wrote a WAVEFILE" << std::endl;
+    //std::cout << "Wrote a WAVEFILE" << std::endl;
 }
 
 double KronigPenney::greens(double energy) {
@@ -332,7 +332,7 @@ void KronigPenney::writeRESULTFILE(std::__cxx11::string RESULTFILE){
         FILE << "\n";
     }
     FILE.close();
-    std::cout << "Wrote a new WAVEFILE with perturbed states" << std::endl;
+    //std::cout << "Wrote a new WAVEFILE with perturbed states" << std::endl;
 }
 
 vec3 KronigPenney::aReal() const {

@@ -8,7 +8,7 @@ using namespace std;
 
 int main(int argc, char *argv[])
 {
-    double energyCutOff = 70; //eV
+    double energyCutOff = 50; //eV
     string cellFile = "CELLFILE";
     string potentialFile = "POTENTIALFILE";
     string basisFile = "BASISFILE";
@@ -52,7 +52,7 @@ int main(int argc, char *argv[])
         volume = a.dot(b.cross(c));
 
         //loop over desired k-points
-        for(double h = 0; h<=0.5; h+=0.001){
+        for(double h = -0.5; h<=0.5; h+=0.001){
             kPoint = h*KP.aResiprocal();
 
             bool states = KP.readWAVEFILE(waveFile,kPoint);
