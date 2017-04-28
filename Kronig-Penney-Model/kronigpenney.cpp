@@ -305,6 +305,20 @@ void KronigPenney::findPerturbedStates(double eigenEnergy, vec3 kPoint) {
         basisWeights.push_back(basisWeight);
     }
 
+    /***** VERIFY WAVEFUNCTION *******/
+    double energy, H0, weightSum;
+    energy = 0;
+    weightSum = 0;
+
+    H0 = HBAR_C*HBAR_C/(2.0*ELECTRON_MASS_ENERGY);
+    for(int i = 0; i<m_waveBasisLength; i++) {
+        weightSum += basisWeights[i];
+    }
+    for(int i = 0; i<m_waveBasisLength; i++) {
+        energy += (H0*(m_waveBasis[i]+kPoint).lengthSquared()*basisWeights[i]+(m_potential*weightSum)/m_potentialVolume)*basisWeights[i];
+    }
+    std::cout << energy << " # " << eigenEnergy << " # " << (energy-eigenEnergy) << std::endl;
+
     for(int j = 0; j<m_waveBasisLength; j++) {
         effectiveG += m_waveBasis[j]*basisWeights[j];
     }
