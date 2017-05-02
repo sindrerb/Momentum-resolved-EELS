@@ -7,8 +7,9 @@ Created on Fri Mar 24 09:59:53 2017
 import numpy as np
 import matplotlib.pyplot as plt
 
+basis = np.loadtxt("./Kronig-Penney-Model/Build/BASISFILE", dtype = 'float')
 waves = np.loadtxt("./Kronig-Penney-Model/Build/WAVEFILE", dtype = 'float')
-#fig, ax = plt.subplots()
+potential = np.loadtxt("./Kronig-Penney-Model/Build/POTENTIALFILE", dtype = 'float', skiprows = 1)[0]
 
 Q = waves[:,0:3]
 E = waves[:,3]

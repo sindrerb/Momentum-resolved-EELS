@@ -8,7 +8,7 @@ using namespace std;
 
 int main(int argc, char *argv[])
 {
-    double energyCutOff = 100; //eV
+    double energyCutOff = 40; //eV
     string cellFile = "CELLFILE";
     string potentialFile = "POTENTIALFILE";
     string basisFile = "BASISFILE";
@@ -60,7 +60,7 @@ int main(int argc, char *argv[])
                 KP.setWaveStates(kPoint);
                 KP.writeWAVEFILE(waveFile,kPoint);
             }
-            KP.calculateEigenValues(kPoint,-1,30.0, potential, volume);
+            KP.calculateEigenValues(kPoint,5,20.0, potential, volume);
             KP.writeRESULTFILE(resultFile);
         }
         rename("WAVEFILE","WAVEFILE_OLD");

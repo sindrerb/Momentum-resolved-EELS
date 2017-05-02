@@ -259,6 +259,8 @@ double KronigPenney::greens(double energy) {
 void KronigPenney::calculateEigenValues(vec3 kPoint, double energyMin, double energyMax, double potential, double volume) {
     m_perturbedStates.clear();
     m_perturbedStatesLength = 0;
+    m_potential = potential;
+    m_potentialVolume = volume;
     double energy, energyStep, green, greenOld, greenCriteria;
     greenCriteria = volume/potential;
     greenOld = -m_accuracy;
@@ -309,7 +311,6 @@ void KronigPenney::findPerturbedStates(double eigenEnergy, vec3 kPoint) {
     double energy, H0, weightSum;
     energy = 0;
     weightSum = 0;
-
     H0 = HBAR_C*HBAR_C/(2.0*ELECTRON_MASS_ENERGY);
     for(int i = 0; i<m_waveBasisLength; i++) {
         weightSum += basisWeights[i];
@@ -317,7 +318,7 @@ void KronigPenney::findPerturbedStates(double eigenEnergy, vec3 kPoint) {
     for(int i = 0; i<m_waveBasisLength; i++) {
         energy += (H0*(m_waveBasis[i]+kPoint).lengthSquared()*basisWeights[i]+(m_potential*weightSum)/m_potentialVolume)*basisWeights[i];
     }
-    std::cout << energy << " # " << eigenEnergy << " # " << (energy-eigenEnergy) << std::endl;
+    std::cout <<  " # " << energy << " # " << eigenEnergy << " # " << (energy-eigenEnergy) << std::endl;
 
     for(int j = 0; j<m_waveBasisLength; j++) {
         effectiveG += m_waveBasis[j]*basisWeights[j];
