@@ -2,8 +2,8 @@
 #define KRONIGPENNEY_H
 
 #include <string>
-#include <../vec3-class/vec3.h>
-#include <../wavestate-class/wavestate.h>
+#include "../vec3-class/vec3.h"
+#include "../wavestate-class/wavestate.h"
 #include <iostream>
 #include <fstream>
 #include <math.h>

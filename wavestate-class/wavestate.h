@@ -2,7 +2,7 @@
 #define WAVESTATE_H
 #include <vector>
 #include <iostream>
-#include <../vec3-class/vec3.h>
+#include "../vec3-class/vec3.h"
 
 class waveState
 {

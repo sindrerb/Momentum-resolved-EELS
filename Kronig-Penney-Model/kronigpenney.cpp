@@ -318,7 +318,7 @@ void KronigPenney::findPerturbedStates(double eigenEnergy, vec3 kPoint) {
     for(int i = 0; i<m_waveBasisLength; i++) {
         energy += (H0*(m_waveBasis[i]+kPoint).lengthSquared()*basisWeights[i]+(m_potential*weightSum)/m_potentialVolume)*basisWeights[i];
     }
-    std::cout <<  " # " << energy << " # " << eigenEnergy << " # " << (energy-eigenEnergy) << std::endl;
+    //std::cout <<  " # " << energy << " # " << eigenEnergy << " # " << (energy-eigenEnergy) << std::endl;
 
     for(int j = 0; j<m_waveBasisLength; j++) {
         effectiveG += m_waveBasis[j]*basisWeights[j];
